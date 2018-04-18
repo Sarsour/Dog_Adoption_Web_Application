@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import business.Dog;
+import business.Item;
 import business.User;
 import data.UserDB;
 import util.MailUtilGmail;
@@ -46,6 +48,11 @@ public class Servlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String url = "/cart.jsp";
         
+		// Get site content
+		// TODO need to set as param in session for both
+		ArrayList<Dog> dogList = UserDB.getDogs();
+		ArrayList<Item> itemList = UserDB.getItems();
+		
         // Action - get user action and set to "edit" if null
         String action = request.getParameter("action");
         if (action == null) {
