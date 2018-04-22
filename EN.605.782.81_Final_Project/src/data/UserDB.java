@@ -111,6 +111,33 @@ public class UserDB {
         }
     }
     
+    // Grab all Items from Table
+    public static ArrayList<Item> getItems() {
+    		ArrayList<Item> itemList = new ArrayList<Item>();
+    		Item item = new Item();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "SELECT * FROM Items";
+        try {
+            ps = connection.prepareStatement(query);
+            ResultSet resultSet =  ps.executeQuery();
+            while (resultSet.next()) {
+            		item = new Item(resultSet.getString(0), resultSet.getDouble(1));
+            		itemList.add(item);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+        
+        return itemList;
+    }
+    
     
     // Insert into Dogs Table
     public static int InsertDog(Dog dog) {
@@ -134,6 +161,33 @@ public class UserDB {
             DBUtil.closePreparedStatement(ps);
             pool.freeConnection(connection);
         }
+    }
+    
+    // Grab all Dogs from Table
+    public static ArrayList<Dog> getDogs() {
+    		ArrayList<Dog> dogList = new ArrayList<Dog>();
+    		Dog dog = new Dog();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "SELECT * FROM Dogs";
+        try {
+            ps = connection.prepareStatement(query);
+            ResultSet resultSet =  ps.executeQuery();
+            while (resultSet.next()) {
+            		dog = new Dog(resultSet.getString(0), resultSet.getInt(1), resultSet.getString(2));
+            		dogList.add(dog);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+        
+        return dogList;
     }
     
     
